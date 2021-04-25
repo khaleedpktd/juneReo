@@ -1,0 +1,11 @@
+'2. Verify Welcome  text and Home button exist  after successfull login
+iExp1="Welcome"
+iAcu1=fWebElement_getText("BLOCKQUOTE","Welcome,.*")
+If Instr(iAcu1,iExp1) Then
+	Reporter.ReportEvent micPass,"Verify Welcome","Exist"
+	Else
+	Reporter.ReportEvent micFail,"Verify Welcome","Not Exist"
+End If
+
+Call fExistImage("Home Button")
+
