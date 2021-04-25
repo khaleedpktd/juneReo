@@ -1,0 +1,32 @@
+'Script Name:Login_Parameterization
+
+'Read number of row in data table
+Dim nRow,uid,pw
+nRow=Datatable.GetSheet("Global").GetRowCount
+
+For i = 1 To  nRow
+	Datatable.SetCurrentRow(i)   'GET data for that iteration
+	uid=Datatable.Value("UserName","Global")
+	pw=Datatable.Value("Password","Global")
+'Drag&Drop
+Wait 2
+Browser("Web Tours").Page("Web Tours").Frame("navbar").WebEdit("username").Set uid
+Wait 2
+Browser("Web Tours").Page("Web Tours").Frame("navbar").WebEdit("password").Set pw
+Wait 2
+Browser("Web Tours").Page("Web Tours").Frame("navbar").Image("Login").Click
+
+
+'Check for success login
+
+If Browser("Web Tours").Page("Web Tours").Frame("navbar").Image("SignOff Button").Exist(10) Then
+	Reporter.ReportEvent micPass,"Login process is: ","Successful"
+	Datatable.Value("Status","Global")="Pass"
+	Browser("Web Tours").Page("Web Tours").Frame("navbar").Image("SignOff Button").Click
+	Else
+	
+	Reporter.ReportEvent micFail,"Login process is: ","UnSuccessful"
+	Datatable.Value("Status","Global")="Fail"
+	Datatable.Value("InvalidID","Global")=uid
+	
+End If
